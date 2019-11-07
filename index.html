@@ -12,17 +12,23 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-    <script src="ajax.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script src="index.js"></script>
     <script>
-      $(document).ready(function() {
+      $(document).ready(function($) {
         getProdutos();
         buildSelectUF();
         buscaCep();
 
         $("#celular").mask("(00) 0000-00009");
-        $("#telefone").mask("(00) 0000-00009");
+        $("#telefone").mask("(00) 0000-0000");
 
         $("#fone").blur(function(event) {
           if ($(this).val().length == 15) {
@@ -247,3 +253,62 @@
     ></script>
   </body>
 </html>
+
+<!-- <propostacomercial>
+  <desconto>10</desconto>
+  <observacaoInterna></observacaoInterna>
+  <dataEmissao>10/12/2018</dataEmissao>
+  <dataProximoContato>15/08/2019</dataProximoContato>
+  <numeroProposta>5</numeroProposta>
+  <vendedor></vendedor>
+  <valorFrete>50</valorFrete>
+  <loja>49708527</loja>
+  <aosCuidadosDe></aosCuidadosDe>
+  <garantia>9999</garantia>
+  <validadeDaProposta>15</validadeDaProposta>
+  <observacao>Teste</observacao>
+  <prazoEntrega>5</prazoEntrega>
+  <assinaturaSaudacao>Atenciosamente,</assinaturaSaudacao>
+  <assinaturaResponsavel>Departamento de vendas</assinaturaResponsavel>
+  <idContato>0000001</idContato>
+  <itens>
+    <item>
+      <codigo>001</codigo>
+      <descricao>teste</descricao>
+      <qtde>5</qtde>
+      <valorUnidade>1</valorUnidade>
+      <un>un</un>
+    </item>
+    <item>
+      <codigo>002</codigo>
+      <descricao>teste2</descricao>
+      <qtde>100</qtde>
+      <valorUnidade>50</valorUnidade>
+      <un></un>
+    </item>
+  </itens>
+  <parcelas>
+    <parcela>
+      <valor>90</valor>
+      <obs>Teste obs 1</obs>
+      <nrDias>50</nrDias>
+      <formaPagamento>
+        <id>0001</id>
+      </formaPagamento>
+    </parcela>
+    <parcela>
+      <valor>5000</valor>
+      <obs>Teste obs 2</obs>
+      <nrDias>100</nrDias>
+      <formaPagamento>
+        <id>0002</id>
+      </formaPagamento>
+    </parcela>
+  </parcelas>
+  <transporte>
+    <transportadora>Transportadora XYZ</transportadora>
+    <tipoFrete>s</tipoFrete>
+    <qtdVolumes>50</qtdVolumes>
+    <pesoBruto>5</pesoBruto>
+  </transporte>
+</propostacomercial> -->
