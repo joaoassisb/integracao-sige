@@ -38,38 +38,30 @@ function getFormasPagamento() {
   fetch("/api/formaspagamento")
     .then(res => res.json())
     .then(data => {
-     
       data.forEach(element => {
-
         $("#SelectForma").append(`
           
-            <option value="${element.formapagamento.id}" >${element.formapagamento.descricao}</option>`
-            
-          );
-  
-       });
+            <option value="${element.formapagamento.id}" >${element.formapagamento.descricao}</option>`);
+      });
     });
-  }
+}
 
 function getProdutos() {
   fetch("/api/pedidos")
     .then(res => res.json())
     .then(data => {
-
-     data.forEach(element => {
-
-      $("#TableItens tbody").append(`
+      data.forEach(element => {
+        $("#TableItens tbody").append(`
         <tr>
-          <td><input value="${element.produto.codigo}" class="produto" desc="${element.produto.descricao}" valor="${element.produto.preco}" onchange="Valor(this,${parseFloat(element.produto.preco)})" type="checkbox"/></td>
+          <td><input value="${element.produto.codigo}" class="produto" desc="${
+          element.produto.descricao
+        }" valor="${element.produto.preco}" onchange="Valor(this,${parseFloat(
+          element.produto.preco
+        )})" type="checkbox"/></td>
           <td>${element.produto.descricao}</td>
           <td>${parseFloat(element.produto.preco).toFixed(2)}</td>
-          </tr>`
-        );
-
-     });
-      
-
-     
+          </tr>`);
+      });
     });
 }
 
@@ -124,111 +116,102 @@ function buscaCep() {
   });
 }
 
-function Valor(input,valor){
-  var prop =$(input).prop("checked");
-  var ValorTotal = $("#ValorTotal").val() =="" ? 0 : parseFloat($("#ValorTotal").val());
+function Valor(input, valor) {
+  var prop = $(input).prop("checked");
+  var ValorTotal =
+    $("#ValorTotal").val() == "" ? 0 : parseFloat($("#ValorTotal").val());
 
-  if(prop == true){
+  if (prop == true) {
     $("#ValorTotal").val(ValorTotal + parseFloat(valor));
-  }else{
-    $("#ValorTotal").val(ValorTotal-valor);
+  } else {
+    $("#ValorTotal").val(ValorTotal - valor);
   }
 }
-
-function getItensProposta(){
+function getItensProposta() {
   var ProdutoSelecionado = $(".produto:checked");
 
+  var itens = ``;
 
- var item ="";
-
-  for(i=0;i<ProdutoSelecionado.length; i++){
-
-   item +=` "item": {
-        "codigo": "${$(ProdutoSelecionado[i]).val()}",
-        "descricao": "${$(ProdutoSelecionado[i]).attr("desc")}",
-        "un": "un",
-        "qtde": 1,
-        "valorUnidade": ${$(ProdutoSelecionado[i]).attr("valor")}
-        },`;
-    
-    
+  for (i = 0; i < ProdutoSelecionado.length; i++) {
+    itens += `
+      <item>
+        <codigo>${$(ProdutoSelecionado[i]).val()}</codigo>
+        <descricao>${$(ProdutoSelecionado[i]).attr("desc")}</descricao>
+        <un>"un"</un>
+        <qtde>1</qtde>
+        <valorUnidade>${parseFloat(
+          $(ProdutoSelecionado[i]).attr("valor")
+        )}</valorUnidade>
+      </item>
+    `;
   }
 
-  return item;
+  return itens;
 }
 
-function GerarJson(){
-var data = new Date();
+function GerarJson() {
+  var data = new Date();
 
-var proxContato = new Date();
-proxContato.setDate(data.getDate() + 3);
+  var proxContato = new Date();
+  proxContato.setDate(data.getDate() + 3);
 
-var ObjJson = `
-       {
-        "propostacomercial": [
-            {
-                "propostacomercial": {                  
-                    "data": "${data.toLocaleDateString('en-US')}",
-                    "dataProximoContato": "${proxContato.toLocaleDateString('en-US')}",
-                    "contatoAc": ""//STRING - op,
-                    "loja": //INTEGER - op,
-                    "numero": //INTEGER - op,
-                    "vendedor": "" //STRING - op,
-                    "desconto": "" //STRING - op,
-                    "validade": //INTEGER - op,
-                    "prazoEntrega": "" //STRING(100) - op,
-                    "garantia": //INT - op,
-                    "obs": "" //STRING - op,
-                    "obsInternas": "" //STRING - op,
-                    "assinaturaSaudacao": "" //STRING - op,
-                    "assinaturaResponsavel": "0" //STRING- op,                    
-                    "cliente": {
-                        "id": "" //VARCHAR - op,
-                        "nome": "${$("#nomeCliente").val()}",
-                        "tipoPessoa":"${$("#tipoPessoaCliente").val()}",
-                        "cpfCnpj": "${$("#identificadorCliente").val()}",
-                        "ie": "${$("#inscricaoEstadual").val()}",
-                        "rg": "${$("#rg").val()}",
-                        "contribuinte":"" //STRING - op,
-                        "endereco": "${$("#logradouro").val()}",
-                        "numero": "${$("#numero").val()}",
-                        "complemento": "${$("#complemente").val()}",
-                        "bairro": "${$("#bairro").val()}",                        
-                        "cep": "${$("#cep").val()}",
-                        "cidade": "${$("#cidade").val()}s",                       
-                        "uf": "${$("#uf").val()}",                       
-                        "fone": "${$("#telefone").val()}",
-                        "celular": "${$("#celular").val()}",
-                        "email": "${$("#email").val()}"                       
-                    },
-                    "itens": [
-                        {
-                            ${getItensProposta()}
-                        },                      
-                    ],
-                    "transporte": {
-                        "transportadora": ""//STRING - op,
-                        "tipoFrete": //STRING - op,
-                        "frete": //DECIMAL - op
-                    },
-                    "parcelas": [
-                        {
-                            "parcela": {
-                                "nrDias": ${$("#nrDias").val()},
-                                "valor": "${$("#ValorTotal").val()}",                                
-                                "obs": "${$("#obs").val()}",
-                                "formaPagamento": {
-                                    "id":${$("#SelectForma").val()}
-                                }
-                            }
-                        }
-                       
-                    ]
-                   
-                }
-            }
-        ]
-    }`;
+  const items = getItensProposta();
 
-   console.log(ObjJson);
+  if (items.length === 0) {
+    alert("Selecione pelo menos um item");
+    return;
+  }
+
+  var obj = {
+    xml: `
+  <?xml version="1.0" encoding="UTF-8"?>
+   <propostacomercial>                  
+    <data>${data.toLocaleDateString("en-US")}</data>
+    <dataProximoContato>${proxContato.toLocaleDateString(
+      "en-US"
+    )}</dataProximoContato>
+    <cliente>
+      <nome>${$("#nomeCliente").val()}</nome>
+      <tipoPessoa>${$("#tipoPessoaCliente").val()}</tipoPessoa>
+      <cpfCnpj>${$("#identificadorCliente").val()}</cpfCnpj>
+      <ie>${$("#inscricaoEstadual").val()}</ie>            
+      <rg>${$("#rg").val()}</rg>
+      <endereco>${$("#logradouro").val()}</endereco>
+      <numero>${$("#numero").val()}</numero>
+      <complemento>${$("#complemente").val()}</complemento>
+      <bairro>${$("#bairro").val()}</bairro>
+      <cep>${$("#cep").val()}</cep>
+      <uf>${$("#uf").val()}</uf>
+      <fone>${$("#telefone").val()}</fone>
+      <celular>${$("#celular").val()}</celular>
+      <email>${$("#email").val()}</email>
+    </cliente>
+    <itens>
+      ${items}
+    </itens>
+      <parcelas> 
+        <parcela>
+          <nrDias> ${$("#nrDias").val()}</nrDias>
+          <valor>${$("#ValorTotal").val()}</valor>
+          <obs>${$("#obs").val()}</obs>
+          <formaPagamento> 
+            <id>${$("#SelectForma").val()}</id>
+          </formaPagamento>
+       </parcela> 
+      </parcelas>
+    </propostacomercial>
+    `
+  };
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(obj)
+  };
+
+  fetch("/api/propostacomercial", options).then(res => {
+    alert("Proposta criada com sucesso", res.data);
+  });
 }

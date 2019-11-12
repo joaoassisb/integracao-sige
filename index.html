@@ -20,7 +20,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-    <script src="index.js?version=12"></script>
+    <script src="index.js?version=13"></script>
     <script>
       $(document).ready(function($) {
         getProdutos();
@@ -61,7 +61,8 @@
                 type="text"
                 class="form-control form-control-sm"
                 id="nomeCliente"
-                placeholder="Nome do cliente" required
+                placeholder="Nome do cliente"
+                required
               />
             </div>
 
@@ -71,13 +72,18 @@
                 type="text"
                 class="form-control form-control-sm"
                 id="identificadorCliente"
-                placeholder="CPF ou CNPJ do cliente" required
+                placeholder="CPF ou CNPJ do cliente"
+                required
               />
             </div>
 
             <div class="form-group col-12 col-md-6">
               <label for="tipoPessoaCliente">Tipo da pessoa *</label>
-              <select class="form-control form-control-sm" required  id="tipoPessoaCliente">
+              <select
+                class="form-control form-control-sm"
+                required
+                id="tipoPessoaCliente"
+              >
                 <option value="F">Pessoa Física</option>
                 <option value="J">Pessoa Jurídica</option>
               </select>
@@ -90,7 +96,8 @@
                   type="email"
                   class="form-control form-control-sm"
                   id="email"
-                  placeholder="Email cliente" required
+                  placeholder="Email cliente"
+                  required
                 />
               </div>
             </div>
@@ -159,7 +166,8 @@
                   size="10"
                   maxlength="9"
                   class="form-control form-control-sm"
-                  placeholder="CEP" required
+                  placeholder="CEP"
+                  required
                 />
               </div>
             </div>
@@ -180,7 +188,8 @@
                   type="text"
                   class="form-control form-control-sm"
                   id="cidade"
-                  placeholder="Cidade" required
+                  placeholder="Cidade"
+                  required
                 />
               </div>
             </div>
@@ -192,7 +201,8 @@
                   type="text"
                   class="form-control form-control-sm"
                   id="logradouro"
-                  placeholder="Logradouro" required
+                  placeholder="Logradouro"
+                  required
                 />
               </div>
             </div>
@@ -204,7 +214,8 @@
                   type="text"
                   class="form-control form-control-sm"
                   id="bairro"
-                  placeholder="Bairro" required
+                  placeholder="Bairro"
+                  required
                 />
               </div>
             </div>
@@ -216,7 +227,8 @@
                   type="number"
                   class="form-control form-control-sm"
                   id="numero"
-                  placeholder="Numero" required
+                  placeholder="Numero"
+                  required
                 />
               </div>
             </div>
@@ -235,61 +247,77 @@
           </div>
         </fieldset>
 
-
-
-        
         <fieldset>
-          <legend >
+          <legend>
             Itens
           </legend>
           <div class="row">
             <div class="col-12">
-              <table class="table table-sm table-striped"  id="TableItens">
-              <thead>
+              <table class="table table-sm table-striped" id="TableItens">
+                <thead>
                   <tr>
                     <th>#</th>
                     <th>Produto</th>
                     <th>Preço</th>
                   </tr>
-              </thead>
-              <tbody>
-
-              </tbody>
-            
+                </thead>
+                <tbody></tbody>
               </table>
-              </div>
+            </div>
           </div>
         </fieldset>
 
-
         <fieldset>
-        <legend >
-          Pagamento
-        </legend>
-        <div class="row">
-          <div class="col-3">
-            <label>Dias</label>
-            <input type="number"  id="nrDias" class="form-control form-control-sm" />
-          </div>
-          <div class="col-3">
+          <legend>
+            Pagamento
+          </legend>
+          <div class="row">
+            <div class="col-3">
+              <label>Dias</label>
+              <input
+                type="number"
+                id="nrDias"
+                class="form-control form-control-sm"
+                required
+              />
+            </div>
+            <div class="col-3">
               <label>Valor</label>
-            <input type="number" id="ValorTotal" readonly class="form-control form-control-sm" />
+              <input
+                type="number"
+                id="ValorTotal"
+                readonly
+                class="form-control form-control-sm"
+              />
+            </div>
+            <div class="col-3">
+              <label>Forma</label>
+              <select
+                name="forma"
+                class="form-control form-control-sm"
+                id="SelectForma"
+                required
+              >
+                <option class="d-none" value=""></option>
+              </select>
+            </div>
+            <div class="col-3">
+              <label>Observação</label>
+              <input
+                type="text"
+                id="obs"
+                class="form-control form-control-sm"
+              />
+            </div>
           </div>
-          <div class="col-3">
-            <label>Forma</label>
-            <select name="forma" class="form-control form-control-sm" id="SelectForma">
-              <option class="d-none" value=""></option>
-            </select>
-          </div>
-          <div class="col-3">
-            <label>Observação</label>
-            <input type="text"  id="obs" class="form-control form-control-sm" />
-          </div>
-        </div>
-      </fieldset>
+        </fieldset>
 
-      <input type="button" class="btn btn-primary mt-3 mb-5" onclick="GerarJson()" value="Confirmar" />
-
+        <input
+          type="button"
+          class="btn btn-primary mt-3 mb-5"
+          onclick="GerarJson()"
+          value="Confirmar"
+        />
       </form>
     </div>
 
@@ -310,62 +338,3 @@
     ></script>
   </body>
 </html>
-
-<!-- <propostacomercial>
-  <desconto>10</desconto>
-  <observacaoInterna></observacaoInterna>
-  <dataEmissao>10/12/2018</dataEmissao>
-  <dataProximoContato>15/08/2019</dataProximoContato>
-  <numeroProposta>5</numeroProposta>
-  <vendedor></vendedor>
-  <valorFrete>50</valorFrete>
-  <loja>49708527</loja>
-  <aosCuidadosDe></aosCuidadosDe>
-  <garantia>9999</garantia>
-  <validadeDaProposta>15</validadeDaProposta>
-  <observacao>Teste</observacao>
-  <prazoEntrega>5</prazoEntrega>
-  <assinaturaSaudacao>Atenciosamente,</assinaturaSaudacao>
-  <assinaturaResponsavel>Departamento de vendas</assinaturaResponsavel>
-  <idContato>0000001</idContato>
-  <itens>
-    <item>
-      <codigo>001</codigo>
-      <descricao>teste</descricao>
-      <qtde>5</qtde>
-      <valorUnidade>1</valorUnidade>
-      <un>un</un>
-    </item>
-    <item>
-      <codigo>002</codigo>
-      <descricao>teste2</descricao>
-      <qtde>100</qtde>
-      <valorUnidade>50</valorUnidade>
-      <un></un>
-    </item>
-  </itens>
-  <parcelas>
-    <parcela>
-      <valor>90</valor>
-      <obs>Teste obs 1</obs>
-      <nrDias>50</nrDias>
-      <formaPagamento>
-        <id>0001</id>
-      </formaPagamento>
-    </parcela>
-    <parcela>
-      <valor>5000</valor>
-      <obs>Teste obs 2</obs>
-      <nrDias>100</nrDias>
-      <formaPagamento>
-        <id>0002</id>
-      </formaPagamento>
-    </parcela>
-  </parcelas>
-  <transporte>
-    <transportadora>Transportadora XYZ</transportadora>
-    <tipoFrete>s</tipoFrete>
-    <qtdVolumes>50</qtdVolumes>
-    <pesoBruto>5</pesoBruto>
-  </transporte>
-</propostacomercial> -->
