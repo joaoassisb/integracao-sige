@@ -20,12 +20,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-    <script src="index.js"></script>
+    <script src="index.js?version=12"></script>
     <script>
       $(document).ready(function($) {
         getProdutos();
         buildSelectUF();
         buscaCep();
+        getFormasPagamento();
 
         $("#celular").mask("(00) 0000-00009");
         $("#telefone").mask("(00) 0000-0000");
@@ -58,9 +59,9 @@
               <label for="nome">Nome *</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control form-control-sm"
                 id="nomeCliente"
-                placeholder="Nome do cliente"
+                placeholder="Nome do cliente" required
               />
             </div>
 
@@ -68,17 +69,17 @@
               <label for="identificadorCliente">CPF / CNPJ *</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control form-control-sm"
                 id="identificadorCliente"
-                placeholder="CPF ou CNPJ do cliente"
+                placeholder="CPF ou CNPJ do cliente" required
               />
             </div>
 
             <div class="form-group col-12 col-md-6">
               <label for="tipoPessoaCliente">Tipo da pessoa *</label>
-              <select class="form-control" id="tipoPessoaCliente">
-                <option>Pessoa Física</option>
-                <option>Pessoa Jurídica</option>
+              <select class="form-control form-control-sm" required  id="tipoPessoaCliente">
+                <option value="F">Pessoa Física</option>
+                <option value="J">Pessoa Jurídica</option>
               </select>
             </div>
 
@@ -87,9 +88,9 @@
                 <label for="inscricaoEstadual">Email *</label>
                 <input
                   type="email"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="email"
-                  placeholder="Email cliente"
+                  placeholder="Email cliente" required
                 />
               </div>
             </div>
@@ -99,7 +100,7 @@
                 <label for="rg">Celular</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="celular"
                   placeholder="Telefone celular"
                 />
@@ -111,7 +112,7 @@
                 <label for="rg">Telefone</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="telefone"
                   placeholder="Telefone fixo"
                 />
@@ -123,7 +124,7 @@
                 <label for="inscricaoEstadual">Inscrição estadual</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="inscricaoEstadual"
                   placeholder="Inscrição estadual do cliente"
                 />
@@ -135,7 +136,7 @@
                 <label for="rg">RG</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="rg"
                   placeholder="RG do cliente"
                 />
@@ -157,8 +158,8 @@
                   type="text"
                   size="10"
                   maxlength="9"
-                  class="form-control"
-                  placeholder="CEP"
+                  class="form-control form-control-sm"
+                  placeholder="CEP" required
                 />
               </div>
             </div>
@@ -166,7 +167,7 @@
             <div class="col-6 col-md-4">
               <div class="form-group">
                 <label for="uf">UF *</label>
-                <select class="form-control" id="uf">
+                <select class="form-control form-control-sm" required id="uf">
                   <option value=""></option>
                 </select>
               </div>
@@ -177,9 +178,9 @@
                 <label for="uf">Cidade *</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="cidade"
-                  placeholder="Cidade"
+                  placeholder="Cidade" required
                 />
               </div>
             </div>
@@ -189,9 +190,9 @@
                 <label for="logradouro">Logradouro *</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="logradouro"
-                  placeholder="Logradouro"
+                  placeholder="Logradouro" required
                 />
               </div>
             </div>
@@ -201,9 +202,9 @@
                 <label for="logradouro">Bairro *</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="bairro"
-                  placeholder="Bairro"
+                  placeholder="Bairro" required
                 />
               </div>
             </div>
@@ -213,9 +214,9 @@
                 <label for="numero">Número *</label>
                 <input
                   type="number"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="numero"
-                  placeholder="Numero"
+                  placeholder="Numero" required
                 />
               </div>
             </div>
@@ -225,7 +226,7 @@
                 <label for="complemento">Complemento</label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-control-sm"
                   id="complemente"
                   placeholder="Complemento"
                 />
@@ -233,6 +234,62 @@
             </div>
           </div>
         </fieldset>
+
+
+
+        
+        <fieldset>
+          <legend >
+            Itens
+          </legend>
+          <div class="row">
+            <div class="col-12">
+              <table class="table table-sm table-striped"  id="TableItens">
+              <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                  </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            
+              </table>
+              </div>
+          </div>
+        </fieldset>
+
+
+        <fieldset>
+        <legend >
+          Pagamento
+        </legend>
+        <div class="row">
+          <div class="col-3">
+            <label>Dias</label>
+            <input type="number"  id="nrDias" class="form-control form-control-sm" />
+          </div>
+          <div class="col-3">
+              <label>Valor</label>
+            <input type="number" id="ValorTotal" readonly class="form-control form-control-sm" />
+          </div>
+          <div class="col-3">
+            <label>Forma</label>
+            <select name="forma" class="form-control form-control-sm" id="SelectForma">
+              <option class="d-none" value=""></option>
+            </select>
+          </div>
+          <div class="col-3">
+            <label>Observação</label>
+            <input type="text"  id="obs" class="form-control form-control-sm" />
+          </div>
+        </div>
+      </fieldset>
+
+      <input type="button" class="btn btn-primary mt-3 mb-5" onclick="GerarJson()" value="Confirmar" />
+
       </form>
     </div>
 

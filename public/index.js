@@ -34,11 +34,42 @@ function buildSelectUF() {
   });
 }
 
+function getFormasPagamento() {
+  fetch("/api/formaspagamento")
+    .then(res => res.json())
+    .then(data => {
+     
+      data.forEach(element => {
+
+        $("#SelectForma").append(`
+          
+            <option value="${element.formapagamento.id}" >${element.formapagamento.descricao}</option>`
+            
+          );
+  
+       });
+    });
+  }
+
 function getProdutos() {
   fetch("/api/pedidos")
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+
+     data.forEach(element => {
+
+      $("#TableItens tbody").append(`
+        <tr>
+          <td><input value="${element.produto.codigo}" class="produto" desc="${element.produto.descricao}" valor="${element.produto.preco}" onchange="Valor(this,${parseFloat(element.produto.preco)})" type="checkbox"/></td>
+          <td>${element.produto.descricao}</td>
+          <td>${parseFloat(element.produto.preco).toFixed(2)}</td>
+          </tr>`
+        );
+
+     });
+      
+
+     
     });
 }
 
@@ -91,4 +122,113 @@ function buscaCep() {
       }
     }
   });
+}
+
+function Valor(input,valor){
+  var prop =$(input).prop("checked");
+  var ValorTotal = $("#ValorTotal").val() =="" ? 0 : parseFloat($("#ValorTotal").val());
+
+  if(prop == true){
+    $("#ValorTotal").val(ValorTotal + parseFloat(valor));
+  }else{
+    $("#ValorTotal").val(ValorTotal-valor);
+  }
+}
+
+function getItensProposta(){
+  var ProdutoSelecionado = $(".produto:checked");
+
+
+ var item ="";
+
+  for(i=0;i<ProdutoSelecionado.length; i++){
+
+   item +=` "item": {
+        "codigo": "${$(ProdutoSelecionado[i]).val()}",
+        "descricao": "${$(ProdutoSelecionado[i]).attr("desc")}",
+        "un": "un",
+        "qtde": 1,
+        "valorUnidade": ${$(ProdutoSelecionado[i]).attr("valor")}
+        },`;
+    
+    
+  }
+
+  return item;
+}
+
+function GerarJson(){
+var data = new Date();
+
+var proxContato = new Date();
+proxContato.setDate(data.getDate() + 3);
+
+var ObjJson = `
+       {
+        "propostacomercial": [
+            {
+                "propostacomercial": {                  
+                    "data": "${data.toLocaleDateString('en-US')}",
+                    "dataProximoContato": "${proxContato.toLocaleDateString('en-US')}",
+                    "contatoAc": ""//STRING - op,
+                    "loja": //INTEGER - op,
+                    "numero": //INTEGER - op,
+                    "vendedor": "" //STRING - op,
+                    "desconto": "" //STRING - op,
+                    "validade": //INTEGER - op,
+                    "prazoEntrega": "" //STRING(100) - op,
+                    "garantia": //INT - op,
+                    "obs": "" //STRING - op,
+                    "obsInternas": "" //STRING - op,
+                    "assinaturaSaudacao": "" //STRING - op,
+                    "assinaturaResponsavel": "0" //STRING- op,                    
+                    "cliente": {
+                        "id": "" //VARCHAR - op,
+                        "nome": "${$("#nomeCliente").val()}",
+                        "tipoPessoa":"${$("#tipoPessoaCliente").val()}",
+                        "cpfCnpj": "${$("#identificadorCliente").val()}",
+                        "ie": "${$("#inscricaoEstadual").val()}",
+                        "rg": "${$("#rg").val()}",
+                        "contribuinte":"" //STRING - op,
+                        "endereco": "${$("#logradouro").val()}",
+                        "numero": "${$("#numero").val()}",
+                        "complemento": "${$("#complemente").val()}",
+                        "bairro": "${$("#bairro").val()}",                        
+                        "cep": "${$("#cep").val()}",
+                        "cidade": "${$("#cidade").val()}s",                       
+                        "uf": "${$("#uf").val()}",                       
+                        "fone": "${$("#telefone").val()}",
+                        "celular": "${$("#celular").val()}",
+                        "email": "${$("#email").val()}"                       
+                    },
+                    "itens": [
+                        {
+                            ${getItensProposta()}
+                        },                      
+                    ],
+                    "transporte": {
+                        "transportadora": ""//STRING - op,
+                        "tipoFrete": //STRING - op,
+                        "frete": //DECIMAL - op
+                    },
+                    "parcelas": [
+                        {
+                            "parcela": {
+                                "nrDias": ${$("#nrDias").val()},
+                                "valor": "${$("#ValorTotal").val()}",                                
+                                "obs": "${$("#obs").val()}",
+                                "formaPagamento": {
+                                    "id":${$("#SelectForma").val()}
+                                }
+                            }
+                        }
+                       
+                    ]
+                   
+                }
+            }
+        ]
+    }`;
+
+   console.log(ObjJson);
 }
